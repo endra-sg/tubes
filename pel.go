@@ -44,8 +44,9 @@ func main() {
 			if jumlahSkripsi == 0 {
 				fmt.Println("\nBelum ada data skripsi. Silakan tambah data terlebih dahulu.")
 			} else {
-				fmt.Println("1 Menggunakan Nama sequentialsearchbyNama")
-				fmt.Println("1 Menggunakan Nama binarySearchBynamaS")
+				fmt.Println("1. Menggunakan nama penulis atau judul skripsi (Sequential Search)")
+				fmt.Println("2. Menggunakan nama penulis (Binary Search)")
+				fmt.Print("Pilih jenis searching: ")
 				fmt.Scan(&jenis)
 				if jenis == "1" {
 					sequentialsearchbyNama(&dataSkripsi, jumlahSkripsi)
@@ -59,8 +60,9 @@ func main() {
 				fmt.Println("\nBelum ada data skripsi. Silakan tambah data terlebih dahulu.")
 			} else {
 				fmt.Println("Opsi Pengurutan Data")
-				fmt.Println("1 Menggunakan Nama")
-				fmt.Println("2 Menggunakan Tahun")
+				fmt.Println("1. Menggunakan Nama")
+				fmt.Println("2. Menggunakan Tahun")
+				fmt.Print("Pilih jenis sorting: ")
 				fmt.Scan(&jenis)
 				if jenis == "1" {
 					selectionshortbyNama(&dataSkripsi, jumlahSkripsi)
@@ -91,6 +93,7 @@ func daftarMenu() {
 	fmt.Println("4. Cari Data Skripsi")
 	fmt.Println("5. Urutkan Data Skripsi")
 	fmt.Println("6. Tampilkan Statistik Skripsi")
+	fmt.Println("7. Tampilkan data")
 	fmt.Println("0. Keluar")
 	fmt.Println()
 }
