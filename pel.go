@@ -342,24 +342,99 @@ func tampilkanData(s tabSkripsIn, n int) {
 }
 
 func statistikSkripsi(s *tabSkripsIn, n int) {
-	var jumlah, i int
-	var tahun int
-	var totalSkripsi int
-	totalSkripsi = 1
-	jumlah = 1
-	tahun = s[0].tahunLulus
+	var i, j int
+	var ditemukan bool
+	var jumlah int
+	var lulus, belumLulus int
+
+	fmt.Println("========================")
 	fmt.Println("STATISTIK DATA SKRIPSI")
-	fmt.Printf("%-10s %-20s\n", "Tahun", "Jumlah Skripsi")
-	for i = 1; i < n; i++ {
-		totalSkripsi = totalSkripsi + 1
-		if s[i].tahunLulus == tahun {
-			jumlah = jumlah + 1
-		} else {
-			fmt.Printf("%-10s %-20d\n", tahun, jumlah)
-			tahun = s[i].tahunLulus
-			jumlah = 1
+	fmt.Println("========================")
+
+	fmt.Printf("\nTotal Skripsi           : %d\n", n)
+	fmt.Println("\nBerdasarkan Tahun Lulus")
+
+	for i = 0; i < n; i++ {\\ pengecekan apakah tahun double input agar menghindari output double
+		ditemukan = false
+
+		for j = 0; j < i; j++ {
+			if s[i].tahunLulus == s[j].tahunLulus {
+				ditemukan = true
+			}
+		}
+
+		if !ditemukan {
+			jumlah = 0
+
+			for j = 0; j < n; j++ {
+				if s[j].tahunLulus == s[i].tahunLulus {
+					jumlah = jumlah + 1
+				}
+			}
+
+			fmt.Printf("%-24d : %d Skripsi\n", s[i].tahunLulus, jumlah)
 		}
 	}
-	fmt.Printf("%-10s %-20d\n", tahun, jumlah)
-	fmt.Println("TOTAL DOKUMEN SKRIPSI", totalSkripsi)
+	fmt.Println("\nBerdasarkan Topik")
+
+	for i = 0; i < n; i++ { 
+		ditemukan = false
+
+		for j = 0; j < i; j++ {
+			if s[i].topik == s[j].topik {
+				ditemukan = true
+			}
+		}
+
+		if !ditemukan {
+			jumlah = 0
+
+			for j = 0; j < n; j++ {
+				if s[j].topik == s[i].topik {
+					jumlah = jumlah + 1
+				}
+			}
+
+			fmt.Printf("%-24s : %d Skripsi\n", s[i].topik, jumlah)
+		}
+	}
+
+	fmt.Println("\nBerdasarkan Pembimbing")
+
+	for i = 0; i < n; i++ {
+		ditemukan = false
+
+		for j = 0; j < i; j++ {
+			if s[i].pembimbing == s[j].pembimbing {
+				ditemukan = true
+			}
+		}
+
+		if !ditemukan {
+			jumlah = 0
+
+			for j = 0; j < n; j++ {
+				if s[j].pembimbing == s[i].pembimbing {
+					jumlah = jumlah + 1
+				}
+			}
+
+			fmt.Printf("%-24s : %d Skripsi\n", s[i].pembimbing, jumlah)
+		}
+	}
+
+	lulus = 0
+	belumLulus = 0
+
+	for i = 0; i < n; i++ {
+		if s[i].statusKelulusan == "Lulus" {
+			lulus = lulus + 1
+		} else {
+			belumLulus = belumLulus + 1
+		}
+	}
+
+	fmt.Println("\nBerdasarkan Status")
+	fmt.Printf("%-24s : %d Skripsi\n", "Lulus", lulus)
+	fmt.Printf("%-24s : %d Skripsi\n", "Belum Lulus", belumLulus)
 }
