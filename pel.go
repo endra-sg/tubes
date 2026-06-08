@@ -16,7 +16,7 @@ type skripsi struct {
 	statusKelulusan string
 }
 
-// menyimpan array dari skripsi
+// menyimpan array dari skripsi, dengan maksimal data yang bisa disimpan sebanyak NMAX
 type tabSkripsIn [NMAX]skripsi
 
 // untuk memilih menu dan apa yang akan dilakukan
@@ -100,7 +100,7 @@ func main() {
 	}
 }
 
-// hanya menampilkan list menu yang bisa dipilih
+// procedure untuk menampilkan list menu utama yang bisa dipilih
 func daftarMenu() {
 	fmt.Println("\n----- SkripsIn -----")
 	fmt.Println("1. Tambah Dokumen Skripsi")
@@ -114,11 +114,8 @@ func daftarMenu() {
 	fmt.Println()
 }
 
-/*
-	untuk menginput data yang akan dimasukkan ke array
-
-dan mengembalikan dalam bentuk struct
-*/
+// function untuk menginputkan data skripsi dari pengguna
+// mengembalikan struct skripsi dari yang diinputkan oleh pengguna
 func inputData() skripsi {
 	var s skripsi
 	fmt.Print("Judul skripsi: ")
@@ -137,11 +134,9 @@ func inputData() skripsi {
 	return s
 }
 
-/*
-memvalidasi inputan agar sesuai dengan tipe data yang diminta
-dan tidak menerima inputan kosong, tahun tidak negatif dan nol, serta
-topik yang tersedia
-*/
+// function untuk memvalidasi data skripsi yang sudah diinputkan pengguna
+// parameter yang digunakan adalah struct skripsi
+// mengembalikan true jika data sesuai, dan false jika tidak sesuai
 func validateInput(s skripsi) bool {
 	if s.judul == "" || s.penulis == "" || s.pembimbing == "" {
 		return false
@@ -156,7 +151,10 @@ func validateInput(s skripsi) bool {
 	return true
 }
 
-// menambah data skripsi yang sudah diinputkan dan divalidasi ke dalam array
+
+// procedure untuk menambah data skripsi yang diinputkan pengguna dan tervalidasi
+// parameter yang digunakan adalah s untuk menyimpan array dan mengupdate array dengan data yang dimasukkan
+// maxData untuk menghitung jumlah data yang berhasil ditambah dan mengupdate jumlah maxdData
 func tambahSkripsi(s *tabSkripsIn, maxData *int) {
 	var check skripsi
 	if *maxData >= NMAX {
@@ -168,11 +166,13 @@ func tambahSkripsi(s *tabSkripsIn, maxData *int) {
 	if validateInput(check) {
 		s[*maxData] = check
 		*maxData = *maxData + 1
-		fmt.Println("Data berhaasil ditambahkan")
+		fmt.Println("Data berhasil ditambahkan")
 	}
 }
 
-// mengubah salah satu data yang sudah diinputkan
+// procedure untuk mengubah data skripsi yang diinputkan pengguna dan tervalidasi
+// parameter yang digunakan adalah s untuk menyimpan array dan mengupdate array dengan data yang diubah
+// maxData untuk menghitung jumlah data yang tersedia
 func ubahDataSkripsi(s *tabSkripsIn, maxData int) {
 	var idx int
 	var confirm string
@@ -213,6 +213,9 @@ func ubahDataSkripsi(s *tabSkripsIn, maxData int) {
 	}
 }
 
+// procedure untuk menghapus data skripsi yang diinginkan
+// parameter yang digunakan adalah s untuk menyimpan array dan mengupdate array yang berubah setelah dihapus
+// maxData untuk menghitung jumlah data yang tersedia dan mengupdate jumlah data baru setelah dihapus
 func hapusDataSkripsi(s *tabSkripsIn, maxData *int) {
 	var i, idx int
 	var validasi bool = true
@@ -240,6 +243,8 @@ func hapusDataSkripsi(s *tabSkripsIn, maxData *int) {
 	}
 }
 
+// procedure untuk mencari judul skripsi
+// parameter yang digunakan s sebagai array skripsi, dan jumlah sebagai jumlah skripsi 
 func sequentialSearch(s *tabSkripsIn, jumlah int) {
 	var found bool
 	var validation bool
@@ -263,6 +268,9 @@ func sequentialSearch(s *tabSkripsIn, jumlah int) {
 		}
 	}
 }
+
+// procedure untuk mencari judul nama penulis
+// parameter yang digunakan s sebagai array skripsi, dan n sebagai jumlah skripsi 
 func binarySearch(s *tabSkripsIn, n int) {
 	var left, right, mid int
 	var penulis string
@@ -296,6 +304,10 @@ func binarySearch(s *tabSkripsIn, n int) {
 		fmt.Println("Data yang dicari tidak tersedia")
 	}
 }
+
+
+// procedure untuk mengurutkan nama penulis dengan selection sort secara desccending
+// parameter s sebagai array skripsi, dan n sebagai jumlah array yang terisi
 func selectionSort(s *tabSkripsIn, n int) {
 	var pass, idx, i int
 	var temp skripsi
@@ -315,6 +327,9 @@ func selectionSort(s *tabSkripsIn, n int) {
 		pass = pass + 1
 	}
 }
+
+// procedure untuk mengurutkan tahun dengan selection sort secara ascending
+// parameter s sebagai array skripsi, dan n sebagai jumlah array yang terisi
 func insertionSort(s *tabSkripsIn, n int) {
 	var pass, i int
 	var temp skripsi
@@ -331,6 +346,8 @@ func insertionSort(s *tabSkripsIn, n int) {
 	}
 }
 
+// procedure yang digunakan untuk menampilakn data
+// parameter s untuk array skripsi dan n untuk jumlah skripsi
 func tampilkanData(s tabSkripsIn, n int) {
 	var i int
 	fmt.Printf("| %-1s | %-20s | %-15s | %-10s | %-20s | %-23s | %-12s |\n", "No", "Judul", "Penulis", "Tahun", "Pembimbing", "Topik Penelitian", "Status Kelulusan")
@@ -341,100 +358,140 @@ func tampilkanData(s tabSkripsIn, n int) {
 	}
 }
 
+// procedure untuk menampilkan statistik yang ingin dilihat sesuai dengan data skripsi
+// parameter s sebagai array skripsi dan n sebagai jumlah skripsi
 func statistikSkripsi(s *tabSkripsIn, n int) {
-	var i, j int
+	var i, j, menu int
 	var ditemukan bool
 	var jumlah int
-	var lulus, belumLulus int
+	var lulus, tidakLulus int
 
 	fmt.Println("========================")
 	fmt.Println("STATISTIK DATA SKRIPSI")
 	fmt.Println("========================")
-
 	fmt.Printf("\nTotal Skripsi           : %d\n", n)
-	fmt.Println("\nBerdasarkan Tahun Lulus")
+	fmt.Println("Pilih menu statistik yang ingin dipilih")
+	menuStatistik()
+	fmt.Println("Menu dipilih: ")
+	fmt.Scan(&menu)
 
-	for i = 0; i < n; i++ {\\ pengecekan apakah tahun double input agar menghindari output double
-		ditemukan = false
+	switch menu {
+	// persentase topik yg dibuat (baik lulus atau tidak) seluruh tahun
+	case 1:
+		for i = 0; i < n; i++ {
+			ditemukan = false
 
-		for j = 0; j < i; j++ {
-			if s[i].tahunLulus == s[j].tahunLulus {
-				ditemukan = true
-			}
-		}
-
-		if !ditemukan {
-			jumlah = 0
-
-			for j = 0; j < n; j++ {
-				if s[j].tahunLulus == s[i].tahunLulus {
-					jumlah = jumlah + 1
+			for j = 0; j < i; j++ {
+				if s[i].topik == s[j].topik {
+					ditemukan = true
 				}
 			}
 
-			fmt.Printf("%-24d : %d Skripsi\n", s[i].tahunLulus, jumlah)
-		}
-	}
-	fmt.Println("\nBerdasarkan Topik")
+			if !ditemukan {
+				jumlah = 0
 
-	for i = 0; i < n; i++ { 
-		ditemukan = false
+				for j = 0; j < n; j++ {
+					if s[j].topik == s[i].topik {
+						jumlah = jumlah + 1
+					}
+				}
 
-		for j = 0; j < i; j++ {
-			if s[i].topik == s[j].topik {
-				ditemukan = true
+				fmt.Printf("%-24s : %.2f%%\n", s[i].topik, (float64(jumlah)/float64(n))*100)
 			}
 		}
+	case 2:
+		lulus = 0
+		tidakLulus = 0
 
-		if !ditemukan {
-			jumlah = 0
+		for i = 0; i < n; i++ {
+			if s[i].statusKelulusan == "lulus" {
+				lulus = lulus + 1
+			} else {
+				tidakLulus = tidakLulus + 1
+			}
+		}
+		fmt.Printf("%-12s : %.2f%%\n", "Lulus", (float64(lulus)/float64(n))*100)
+		fmt.Printf("%-12s : %.2f%%\n", "Tidak Lulus", (float64(tidakLulus)/float64(n))*100)
+	case 3:
+		//pengecekan apakah tahun double input agar menghindari output double
+		for i = 0; i < n; i++ {
+			ditemukan = false
 
-			for j = 0; j < n; j++ {
-				if s[j].topik == s[i].topik {
-					jumlah = jumlah + 1
+			for j = 0; j < i; j++ {
+				if s[i].tahunLulus == s[j].tahunLulus {
+					ditemukan = true
 				}
 			}
 
-			fmt.Printf("%-24s : %d Skripsi\n", s[i].topik, jumlah)
-		}
-	}
+			if !ditemukan {
+				jumlah = 0
 
-	fmt.Println("\nBerdasarkan Pembimbing")
+				for j = 0; j < n; j++ {
+					if s[j].tahunLulus == s[i].tahunLulus {
+						jumlah = jumlah + 1
+					}
+				}
 
-	for i = 0; i < n; i++ {
-		ditemukan = false
-
-		for j = 0; j < i; j++ {
-			if s[i].pembimbing == s[j].pembimbing {
-				ditemukan = true
+				fmt.Printf("%-24d : %d Skripsi\n", s[i].tahunLulus, jumlah)
 			}
 		}
+	case 4:
+		for i = 0; i < n; i++ {
+			ditemukan = false
 
-		if !ditemukan {
-			jumlah = 0
-
-			for j = 0; j < n; j++ {
-				if s[j].pembimbing == s[i].pembimbing {
-					jumlah = jumlah + 1
+			for j = 0; j < i; j++ {
+				if s[i].pembimbing == s[j].pembimbing {
+					ditemukan = true
 				}
 			}
 
-			fmt.Printf("%-24s : %d Skripsi\n", s[i].pembimbing, jumlah)
+			if !ditemukan {
+				jumlah = 0
+
+				for j = 0; j < n; j++ {
+					if s[j].pembimbing == s[i].pembimbing {
+						jumlah = jumlah + 1
+					}
+				}
+
+				fmt.Printf("%-24s : %d Skripsi\n", s[i].pembimbing, jumlah)
+			}
 		}
-	}
+	case 5:
+		//cari topik nya
+		for i = 0; i < n; i++ {
+			ditemukan = false
 
-	lulus = 0
-	belumLulus = 0
+			for j = 0; j < i; j++ {
+				if s[i].topik == s[j].topik {
+					ditemukan = true
+				}
+			}
 
-	for i = 0; i < n; i++ {
-		if s[i].statusKelulusan == "Lulus" {
-			lulus = lulus + 1
-		} else {
-			belumLulus = belumLulus + 1
+			if !ditemukan {
+				jumlah = 0
+
+				for j = 0; j < n; j++ {
+					if s[j].topik == s[i].topik {
+						if s[j].statusKelulusan == "lulus" {
+							jumlah = jumlah + 1
+						}
+					}
+				}
+				fmt.Printf("%-24s : %.2f%%\n", s[i].topik, (float64(jumlah)/float64(n))*100)
+			}
 		}
+	default:
+		fmt.Println("salah")
 	}
+}
 
-	fmt.Println("\nBerdasarkan Status")
-	fmt.Printf("%-24s : %d Skripsi\n", "Lulus", lulus)
-	fmt.Printf("%-24s : %d Skripsi\n", "Belum Lulus", belumLulus)
+// procedure untuk menampilkan menu untuk procedure statistik
+func menuStatistik() {
+	fmt.Println("\n1. Topik Penelitian yang Paling Banyak Diangkat")
+	fmt.Println("2. Tingkat Kelulusan Mahasiswa")
+	fmt.Println("3. Jumlah Skripsi yang Telah Lulus Setiap Tahun")
+	fmt.Println("4. Pembimbing Berdasarkan Topik Skripsi")
+	fmt.Println("5. Korelasi Topik dengan Tingkat Kelulusan")
+	fmt.Println()
 }
