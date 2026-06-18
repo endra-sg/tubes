@@ -186,39 +186,28 @@ func tambahSkripsi(s *tabSkripsIn, maxData *int) {
 func ubahDataSkripsi(s *tabSkripsIn, maxData int) {
 	var idx int
 	var confirm string
-	var validasi bool = true
 	var check skripsi
-	var data tabSkripsIn
-
-	data = *s
-
 	fmt.Println("Silahkan pilih data yang ingin diubah")
-	tampilkanData(data, maxData)
-	for validasi {
-		fmt.Print("\nMasukkan nomor data yang ingin diubah: ")
-		fmt.Scan(&idx)
-		if idx < 1 || idx > maxData {
-			fmt.Println("Data tidak tersedia")
-			validasi = false
-		} else {
-			check = inputData()
-			if validateInput(check) {
-				fmt.Println("Apakah data sudah benar? (yes/no)")
-				fmt.Scan(&confirm)
-				if confirm == "yes" {
-					s[idx-1] = check
-					fmt.Println("Data berhasil diubah!")
-					validasi = false
-				} else if confirm == "no" {
-					fmt.Println("Data gagal diubah!")
-					validasi = false
-				} else {
-					fmt.Println("Pilihan tidak valid!")
-				}
+	tampilkanData(*s, maxData)
+	fmt.Print("\nMasukkan nomor data yang ingin diubah: ")
+	fmt.Scan(&idx)
+	if idx < 1 || idx > maxData {
+		fmt.Println("Data tidak tersedia")
+	} else {
+		check = inputData()
+		if validateInput(check) {
+			fmt.Println("Apakah data sudah benar? (yes/no)")
+			fmt.Scan(&confirm)
+			if confirm == "yes" {
+				s[idx-1] = check
+				fmt.Println("Data berhasil diubah!")
+			} else if confirm == "no" {
+				fmt.Println("Data gagal diubah!")
 			} else {
-				fmt.Println("Data yang dimasukkan tidak valid!")
-				validasi = false
+				fmt.Println("Pilihan tidak valid!")
 			}
+		} else {
+			fmt.Println("Data yang dimasukkan tidak valid!")
 		}
 	}
 }
@@ -228,28 +217,18 @@ func ubahDataSkripsi(s *tabSkripsIn, maxData int) {
 // maxData untuk menghitung jumlah data yang tersedia dan mengupdate jumlah data baru setelah dihapus
 func hapusDataSkripsi(s *tabSkripsIn, maxData *int) {
 	var i, idx int
-	var validasi bool = true
-	var n int
-	var data tabSkripsIn
-	data = *s
-	n = *maxData
 	fmt.Println("Silahkan pilih data yang ingin dihapus")
-	tampilkanData(data, n)
-
-	for validasi {
-		fmt.Print("\nMasukkan nomor data yang ingin dihapus: ")
-		fmt.Scan(&idx)
-		if idx < 1 || idx > *maxData {
-			fmt.Println("Data tidak tersedia")
-			validasi = false
-		} else {
-			for i = idx - 1; i < *maxData; i++ {
-				s[i] = s[i+1]
-			}
-			*maxData = *maxData - 1
-			fmt.Println("Data berhasil dihapus")
-			validasi = false
+	tampilkanData(*s, *maxData)
+	fmt.Print("\nMasukkan nomor data yang ingin dihapus: ")
+	fmt.Scan(&idx)
+	if idx < 1 || idx > *maxData {
+		fmt.Println("Data tidak tersedia")
+	} else {
+		for i = idx - 1; i < *maxData; i++ {
+			s[i] = s[i+1]
 		}
+		*maxData = *maxData - 1
+		fmt.Println("Data berhasil dihapus")
 	}
 }
 
@@ -257,34 +236,28 @@ func hapusDataSkripsi(s *tabSkripsIn, maxData *int) {
 // parameter yang digunakan s sebagai array skripsi, dan jumlah sebagai jumlah skripsi
 func sequentialSearch(s *tabSkripsIn, jumlah int) {
 	var found bool
-	var validation bool
 	var key string
 	var j int
-
-	validation = true
-	for validation {
-		found = false
-		fmt.Print("\nJudul skripsi yang ingin di cari: ")
-		fmt.Scan(&key)
-		key = strings.ToLower(key)
-		for j = 0; j < jumlah; j++ {
-			if s[j].judul == key {
-				fmt.Printf("\n=== DATA DITEMUKAN ===\n")
-				fmt.Printf("\nJudul            : %s\n", s[j].judul)
-				fmt.Printf("Penulis          : %s\n", s[j].penulis)
-				fmt.Printf("Tahun lulus      : %d\n", s[j].tahunLulus)
-				fmt.Printf("Pembimbing       : %s\n", s[j].pembimbing)
-				fmt.Printf("Topik penelitian : %s\n", s[j].topik)
-				fmt.Printf("Status kelulusan : %s\n", s[j].statusKelulusan)
-				found = true
-				validation = false
-			}
-		}
-		if !found {
-			fmt.Println("Data yang dicari tidak tersedia")
-			validation = false
+	found = false
+	fmt.Print("\nJudul skripsi yang ingin di cari: ")
+	fmt.Scan(&key)
+	key = strings.ToLower(key)
+	for j = 0; j < jumlah; j++ {
+		if s[j].judul == key {
+			fmt.Printf("\n=== DATA DITEMUKAN ===\n")
+			fmt.Printf("\nJudul            : %s\n", s[j].judul)
+			fmt.Printf("Penulis          : %s\n", s[j].penulis)
+			fmt.Printf("Tahun lulus      : %d\n", s[j].tahunLulus)
+			fmt.Printf("Pembimbing       : %s\n", s[j].pembimbing)
+			fmt.Printf("Topik penelitian : %s\n", s[j].topik)
+			fmt.Printf("Status kelulusan : %s\n", s[j].statusKelulusan)
+			found = true
 		}
 	}
+	if !found {
+		fmt.Println("Data yang dicari tidak tersedia")
+	}
+
 }
 
 // procedure untuk mencari judul nama penulis
@@ -292,37 +265,32 @@ func sequentialSearch(s *tabSkripsIn, jumlah int) {
 func binarySearch(s *tabSkripsIn, n int) {
 	var left, right, mid int
 	var cariPenulis string
-	var found, validation bool
-	for validation {
-		fmt.Print("\nNama penulis yang dicari: ")
-		fmt.Scan(&cariPenulis)
-		cariPenulis = strings.ToLower((cariPenulis))
-		left = 0
-		right = n - 1
-		found = false
-
-		for left <= right && !found {
-			mid = (left + right) / 2
-			if cariPenulis > s[mid].penulis {
-				left = mid + 1
-			} else if cariPenulis < s[mid].penulis {
-				right = mid - 1
-			} else {
-				fmt.Printf("\n=== DATA DITEMUKAN ===\n")
-				fmt.Printf("\nJudul            : %s\n", s[mid].judul)
-				fmt.Printf("Penulis          : %s\n", s[mid].penulis)
-				fmt.Printf("Tahun lulus      : %d\n", s[mid].tahunLulus)
-				fmt.Printf("Pembimbing       : %s\n", s[mid].pembimbing)
-				fmt.Printf("Topik penelitian : %s\n", s[mid].topik)
-				fmt.Printf("Status kelulusan : %s\n", s[mid].statusKelulusan)
-				found = true
-			}
+	var found bool
+	fmt.Print("\nNama penulis yang dicari: ")
+	fmt.Scan(&cariPenulis)
+	cariPenulis = strings.ToLower((cariPenulis))
+	left = 0
+	right = n - 1
+	found = false
+	for left <= right && !found {
+		mid = (left + right) / 2
+		if cariPenulis > s[mid].penulis {
+			left = mid + 1
+		} else if cariPenulis < s[mid].penulis {
+			right = mid - 1
+		} else {
+			fmt.Printf("\n=== DATA DITEMUKAN ===\n")
+			fmt.Printf("\nJudul            : %s\n", s[mid].judul)
+			fmt.Printf("Penulis          : %s\n", s[mid].penulis)
+			fmt.Printf("Tahun lulus      : %d\n", s[mid].tahunLulus)
+			fmt.Printf("Pembimbing       : %s\n", s[mid].pembimbing)
+			fmt.Printf("Topik penelitian : %s\n", s[mid].topik)
+			fmt.Printf("Status kelulusan : %s\n", s[mid].statusKelulusan)
+			found = true
 		}
-
-		if !found {
-			fmt.Println("Data yang dicari tidak tersedia")
-			validation = false
-		}
+	}
+	if !found {
+		fmt.Println("Data yang dicari tidak tersedia")
 	}
 }
 
@@ -370,6 +338,7 @@ func insertionSort(s *tabSkripsIn, n int) {
 // parameter s untuk array skripsi dan n untuk jumlah skripsi
 func tampilkanData(s tabSkripsIn, n int) {
 	var i int
+	fmt.Println("                                                         DATA SKRIPSI                                                                  ")
 	fmt.Println("+-----+----------------------+----------------------+-------------+----------------------+-------------------------+------------------+")
 	fmt.Printf("| %-3s | %-20s | %-20s | %-10s | %-20s | %-23s | %-12s |\n", "NO", "Judul", "Penulis", "Tahun lulus", "Pembimbing", "Topik penelitian", "Status kelulusan")
 	fmt.Println("+-----+----------------------+----------------------+-------------+----------------------+-------------------------+------------------+")
@@ -386,7 +355,6 @@ func statistikSkripsi(s *tabSkripsIn, n int) {
 	var ditemukan bool
 	var jumlah int
 	var lulus, tidakLulus int
-
 	fmt.Println("============================")
 	fmt.Println("   STATISTIK DATA SKRIPSI   ")
 	fmt.Println("============================")
@@ -411,7 +379,6 @@ func statistikSkripsi(s *tabSkripsIn, n int) {
 					ditemukan = true
 				}
 			}
-
 			if !ditemukan {
 				jumlah = 0
 
@@ -431,10 +398,8 @@ func statistikSkripsi(s *tabSkripsIn, n int) {
 		fmt.Println("=================================")
 		fmt.Printf("\nTotal Data Skripsi : %d\n", n)
 		fmt.Println("----------------------------------")
-
 		lulus = 0
 		tidakLulus = 0
-
 		for i = 0; i < n; i++ {
 			if s[i].statusKelulusan == "lulus" {
 				lulus = lulus + 1
@@ -508,7 +473,6 @@ func statistikSkripsi(s *tabSkripsIn, n int) {
 		fmt.Println("====================================================")
 		fmt.Printf("\nTotal Data Skripsi : %d\n", n)
 		fmt.Println("----------------------------------")
-
 		//cari topik nya
 		for i = 0; i < n; i++ {
 			ditemukan = false
