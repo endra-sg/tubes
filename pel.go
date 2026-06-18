@@ -215,6 +215,9 @@ func ubahDataSkripsi(s *tabSkripsIn, maxData int) {
 				} else {
 					fmt.Println("Pilihan tidak valid!")
 				}
+			} else {
+				fmt.Println("Data yang dimasukkan tidak valid!")
+				validasi = false
 			}
 		}
 	}
