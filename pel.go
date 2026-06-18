@@ -77,10 +77,8 @@ func main() {
 				fmt.Scan(&jenis)
 				if jenis == 1 {
 					selectionSort(&dataSkripsi, jumlahSkripsi)
-					fmt.Println("Data berhasil diurutkan! Silahkan pilih menu \"Tampilkan Data\" untuk melihat data terurut")
 				} else if jenis == 2 {
 					insertionSort(&dataSkripsi, jumlahSkripsi)
-					fmt.Println("Data berhasil diurutkan! Silahkan pilih menu \"Tampilkan Data\" untuk melihat data terurut")
 				} else {
 					fmt.Println("Menu yang dipilih tidak valid")
 				}
@@ -314,6 +312,7 @@ func selectionSort(s *tabSkripsIn, n int) {
 		s[idx] = temp
 		pass = pass + 1
 	}
+	tampilkanData(*s, n)
 }
 
 // procedure untuk mengurutkan tahun dengan selection sort secara ascending
@@ -332,6 +331,7 @@ func insertionSort(s *tabSkripsIn, n int) {
 		s[i] = temp
 		pass = pass + 1
 	}
+	tampilkanData(*s, n)
 }
 
 // procedure yang digunakan untuk menampilakn data
