@@ -373,21 +373,18 @@ func statistikSkripsi(s *tabSkripsIn, n int) {
 		fmt.Println("----------------------------------")
 		for i = 0; i < n; i++ {
 			ditemukan = false
-
 			for j = 0; j < i; j++ {
-				if s[i].topik == s[j].topik {
+				if s[i].topik == s[j].topik { //cek apakah topik sudah pernah muncul sebelumnya
 					ditemukan = true
 				}
 			}
 			if !ditemukan {
 				jumlah = 0
-
 				for j = 0; j < n; j++ {
 					if s[j].topik == s[i].topik {
 						jumlah = jumlah + 1
 					}
 				}
-
 				fmt.Printf("%-24s : %.2f%%\n", s[i].topik, (float64(jumlah)/float64(n))*100)
 			}
 		}
@@ -411,7 +408,6 @@ func statistikSkripsi(s *tabSkripsIn, n int) {
 		fmt.Printf("%-12s : %.2f%%\n", "Tidak Lulus", (float64(tidakLulus)/float64(n))*100)
 		fmt.Println("----------------------------------")
 	case 3:
-		//pengecekan apakah tahun double input agar menghindari output double
 		fmt.Println("=================================")
 		fmt.Println("   Jumlah Skripsi Setiap Tahun ")
 		fmt.Println("=================================")
@@ -421,7 +417,7 @@ func statistikSkripsi(s *tabSkripsIn, n int) {
 		for i = 0; i < n; i++ {
 			ditemukan = false
 			for j = 0; j < i; j++ {
-				if s[i].tahunLulus == s[j].tahunLulus {
+				if s[i].tahunLulus == s[j].tahunLulus { //pengecekan apakah tahun double input agar menghindari output double
 					ditemukan = true
 				}
 			}
@@ -444,12 +440,10 @@ func statistikSkripsi(s *tabSkripsIn, n int) {
 		fmt.Println("==================================")
 		fmt.Printf("\nTotal Data Skripsi : %d\n", n)
 		fmt.Println("----------------------------------")
-
 		for i = 0; i < n; i++ {
 			ditemukan = false
-
 			for j = 0; j < i; j++ {
-				if s[i].pembimbing == s[j].pembimbing {
+				if s[i].pembimbing == s[j].pembimbing { // cek apakah nama pembimbing sudah pernah muncul
 					ditemukan = true
 				}
 			}
@@ -461,12 +455,10 @@ func statistikSkripsi(s *tabSkripsIn, n int) {
 						jumlah = jumlah + 1
 					}
 				}
-
 				fmt.Printf("%-20s : %d Skripsi\n", s[i].pembimbing, jumlah)
 			}
 		}
 		fmt.Println("----------------------------------")
-
 	case 5:
 		fmt.Println("====================================================")
 		fmt.Println("   Persentase Kelulusan Berdasarkan Topik Skripsi ")
@@ -476,9 +468,8 @@ func statistikSkripsi(s *tabSkripsIn, n int) {
 		//cari topik nya
 		for i = 0; i < n; i++ {
 			ditemukan = false
-
 			for j = 0; j < i; j++ {
-				if s[i].topik == s[j].topik {
+				if s[i].topik == s[j].topik { // cek apakah topik sudah pernah muncul
 					ditemukan = true
 				}
 			}
